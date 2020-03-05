@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router";
 import './style.css'
 
-export class Login extends Component {
+class Login extends Component {
   state = {
     login: '',
     password: ''
@@ -18,6 +19,7 @@ export class Login extends Component {
   handleSubmit = e => {
     e.preventDefault()
     console.log(this.state)
+    this.props.history.push("/todo")
   }
 
   render() {
@@ -36,3 +38,5 @@ export class Login extends Component {
     )
   }
 }
+
+export default Login = withRouter(Login)
