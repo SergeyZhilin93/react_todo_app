@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router";
+import { login } from '../../../api/auth.js';
 import './style.css'
 
 class Login extends Component {
@@ -18,8 +19,9 @@ class Login extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    console.log(this.state)
-    this.props.history.push("/todo")
+    login({email: this.state.login, password: this.state.password})
+      .then(() => this.props.history.push("/todo"))
+      .catch(() => alert('Неправильный email или пароль!'))
   }
 
   render() {
