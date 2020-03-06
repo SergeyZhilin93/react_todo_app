@@ -1,0 +1,29 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.header-img {
+  width: 100px;
+}
+.header-profile {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.header-dropdown {
+  border: 1px solid black;
+  position: absolute;
+  bottom: -58px;
+  right: 10px;
+  padding: 10px;
+}
+.dropdown-link {
+  margin: 0;
+  color: black;
+  text-decoration: none;
+}
+.header-more-icon {
+  padding: 0 15px;
+  cursor: pointer;
+}
