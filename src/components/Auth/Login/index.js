@@ -27,12 +27,13 @@ class Login extends Component {
   render() {
     return (
       <form className='login-form'>
+        <p className='form-heading'>Test Site</p>
         <div className='form-group'>
-          <label>Email:</label>
+          <label>Email :</label>
           <input onChange={this.handleUserNameChange} type='email' name='login' className='form-group-input'></input>
         </div>
         <div className='form-group'>
-          <label>Password:</label>
+          <label>Password :</label>
           <input onChange={this.handlePasswordChange} type='password' name='password' className='form-group-input'></input>
         </div>
         <button onClick={this.handleSubmit} className='form-button'>Enter</button>
