@@ -1,0 +1,11 @@
+.new-task {
+  display: flex;
+}
+
+.new-task-input {
+  margin: 10px;  
+}
+
+.new-task-button {
+  margin: 10px;
+}

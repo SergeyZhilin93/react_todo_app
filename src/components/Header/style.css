@@ -14,14 +14,16 @@
 .header-dropdown {
   border: 1px solid black;
   position: absolute;
-  bottom: -58px;
+  bottom: -87px;
   right: 10px;
   padding: 10px;
+  border-radius: 5px;
 }
 .dropdown-link {
   margin: 0;
   color: black;
   text-decoration: none;
+  padding: 3px 0;
 }
 .header-more-icon {
   padding: 0 15px;

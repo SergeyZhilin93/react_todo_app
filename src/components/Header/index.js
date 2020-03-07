@@ -14,7 +14,7 @@ export class Header extends Component {
   render() {
     return (
       <header className='header' >
-        <p className="header-logo">Эльдорадо</p>
+        <p className="header-logo">logo</p>
         <div className='header-profile'>
           <img  className='header-img' src='https://cdn.cnn.com/cnnnext/dam/assets/180226110801-elettro-domestici-logo.jpg' alt='avatar'/>
           <span className='header-userName'>userName@mail.com</span>
