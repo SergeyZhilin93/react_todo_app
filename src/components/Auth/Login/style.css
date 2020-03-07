@@ -6,13 +6,14 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  font-family: 'Indie Flower', cursive;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
   padding: 15px 0;
-  font-family: 'Indie Flower', cursive;
+  
   font-weight: bold;
   font-size: 20px;
 }
@@ -21,34 +22,26 @@
   margin: 15px 0;
   padding: 5px 10px;
   border-radius: 5px;
-  border: 1px solid black;
+  border: 1px solid #000000;
 }
 
 .form-button {
   color: #fff;
   background: black;
   padding: 5px 20px;
-  font-family: 'Indie Flower', cursive;
   font-weight: bold;
 } 
-.form-button:hover { 
-  background: #E85F4C;
- }
-.form-button:active { 
-  background: #980F00;
- }
 
 .form-heading {
   margin: 0;
   font-size: 100px;
-  font-family: 'Indie Flower', cursive;
 }
 
 .form-button {
   color: #fff;
-  background: black;
+  background: #000000;
   padding: 5px 20px;
-  
+  font-family: 'Indie Flower', cursive;
 } 
 .form-button:hover { 
   background: #E85F4C;
