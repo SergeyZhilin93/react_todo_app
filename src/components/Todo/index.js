@@ -20,18 +20,17 @@ export class Todo extends Component {
       <Fragment>
         <Header/>
         <form className='form-tasks'>
-            <div className='new-task'>
-              <p className='new-task-head'>Новая задача:</p>
-              <input onChange={this.handleInputChange} type='text' name='new-task' className='new-task-input'></input>
-              <button onClick={this.handleSubmit} className='new-task-button' >Создать задачу</button>
-            </div>
+          <div className='new-task'>
+            <p className='new-task-head'>Новая задача:</p>
+            <input onChange={this.handleInputChange} type='text' name='new-task' className='new-task-input'></input>
+            <button onClick={this.handleSubmit} className='new-task-button' >Создать задачу</button>
+          </div>
           <div className='tasks-list'>
             <p className='tasks-list-head'>Список заданий:</p>
             {
               this.state.tasks.map((task, index) => <p key={index}>{`${index + 1} ${task}`}</p>)
             }
           </div>
-          <div></div>
         </form>
       </Fragment>
     )
