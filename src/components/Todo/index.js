@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Header } from '../Header';
+import { api } from '../../api';
+import { Task } from '../Task';
 import './style.css'
 
 export class Todo extends Component {
@@ -7,15 +9,30 @@ export class Todo extends Component {
     task: '',
     tasks: []
   }
+  
+  componentDidMount() {
+    api.get('/tasks')
+      .then(res => this.setState({ tasks: res.data }))
+      .catch(err => console.log('Error has accured during fetching tasks', err))
+  }
 
   handleInputChange = e => this.setState({ task: e.target.value })
 
   handleSubmit = e => {
     e.preventDefault()
-    this.setState({ tasks: [...this.state.tasks, this.state.task] })
+    api.post('/tasks', { name: this.state.task })
+      .then(res => this.setState({ tasks: [...this.state.tasks, res.data]}) )
+      .catch(err => console.log('Error has accured during creating task', err))
   }
 
   render() {
+    // this.props.data = {
+    //   name: 'asd',
+    //   completed: false,
+    //   created_at: 'sdvdfvdf',
+    //   updated_at: 'asdasdas',
+    //   id: 1
+    // }
     return(
       <Fragment>
         <Header/>
@@ -28,7 +45,7 @@ export class Todo extends Component {
           <div className='tasks-list'>
             <p className='tasks-list-head'>Список заданий:</p>
             {
-              this.state.tasks.map((task, index) => <p key={index}>{`${index + 1} ${task}`}</p>)
+              this.state.tasks.map((task, index) => <Task key={task.id} data={task} index={index + 1}/>)
             }
           </div>
         </form>
