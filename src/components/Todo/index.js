@@ -25,6 +25,16 @@ export class Todo extends Component {
       .catch(err => console.log('Error has accured during creating task', err))
   }
 
+  handleUpdateTask = (name, completed, id) => {
+    api.put(`/tasks/${id}`, { name, completed })
+    .then(res => {
+      const updatedTask = this.state.tasks.find(task => res.data.id == task.id )
+      if (!updatedTask) return
+      updatedTask.name = res.data.name
+      this.setState({ tasks: this.state.tasks})
+    })
+  }
+
   render() {
     // this.props.data = {
     //   name: 'asd',
@@ -45,7 +55,7 @@ export class Todo extends Component {
           <div className='tasks-list'>
             <p className='tasks-list-head'>Список заданий:</p>
             {
-              this.state.tasks.map((task, index) => <Task key={task.id} data={task} index={index + 1}/>)
+              this.state.tasks.map((task, index) => <Task onUpdateTask={this.handleUpdateTask} key={task.id} data={task} index={index + 1}/>)
             }
           </div>
         </form>

@@ -21,8 +21,13 @@ export class Task extends Component {
   }
 
   handleSubmit = e  => {
+    const { name, completed, id } = this.props.data  //достаем их объекта this.props.data нужные нам значения по ключам
+    //строчка 24 короткая запись следующих строчек
+    // const name = this.props.data.name
+    // const completed = this.props.data.completed
+    // const id = this.props.data.id
     e.preventDefault()
-    api.put(`/tasks/${this.props.data.id}`, {name: this.state.inputValue, completed: this.props.data.completed })
+    this.props.onUpdateTask(name, completed, id)
   }
 
   handleDelete = e => {
@@ -69,7 +74,6 @@ export class Task extends Component {
               defaultValue={this.props.data.name}></input>
               <button onClick={this.handleSubmit} className='task-update-button'>Изменить задание</button>
               <FontAwesomeIcon icon={faCalendarCheck} onClick={this.handleComplete}/>
-              {/* <button onClick={this.handleComplete}>Complete</button> */}
             </div>
           )
           : null
