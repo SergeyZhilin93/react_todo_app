@@ -12,6 +12,16 @@
   margin: 10px;  
 }
 
-.new-task-button {
+/* .new-task-button {
   margin: 10px;
+} */
+
+.new-task-button {
+	color: #fff;
+	background: #000000;
+	padding: 5px 20px;
+	font-family: 'Indie Flower', cursive;
+} 
+.new-task-button:hover { 
+background: #E85F4C;
 }

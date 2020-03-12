@@ -1,3 +1,13 @@
 .completed-task {
 	text-decoration: line-through;
 }
+
+.task-update-button {
+	color: #fff;
+	background: #000000;
+	padding: 5px 20px;
+	font-family: 'Indie Flower', cursive;
+} 
+.task-update-button:hover { 
+background: #E85F4C;
+}

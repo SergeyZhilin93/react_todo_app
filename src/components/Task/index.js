@@ -44,22 +44,18 @@ export class Task extends Component {
             (
               <div>
                 <p className='completed-task'>{`${this.props.index} ${this.props.data.name}`}</p>
-                <button className='deleteTask-button' onClick={this.handleDelete}>Удалить</button>
+                <FontAwesomeIcon icon={faTrashAlt} className='deleteTask-button' onClick={this.handleDelete}/>
               </div>
             )
             : 
             (
               <div>
                 <p>{`${this.props.index} ${this.props.data.name}`}</p>
-                <button onClick={this.toggleForm} className='updateTask-button'>Изменить</button>
-                <button className='deleteTask-button' onClick={this.handleDelete}>Удалить</button>
+                <FontAwesomeIcon icon={faPenSquare} onClick={this.toggleForm} className='updateTask-button'/>
+                <FontAwesomeIcon icon={faTrashAlt} className='deleteTask-button' onClick={this.handleDelete}/>
               </div>
             )
           }
-          {/* <p>{`${this.props.index} ${this.props.data.name}`}</p> */}
-          {/* <button onClick={this.toggleForm} className='updateTask-button'>Изменить</button>
-          <button className='deleteTask-button' onClick={this.handleDelete}>Удалить</button> */}
-          {/* <button onClick={this.handleComplete}>com</button> */}
         </div>
         {
           this.state.formActive ?
@@ -72,7 +68,8 @@ export class Task extends Component {
               className='task-update' 
               defaultValue={this.props.data.name}></input>
               <button onClick={this.handleSubmit} className='task-update-button'>Изменить задание</button>
-              <button onClick={this.handleComplete}>Complete</button>
+              <FontAwesomeIcon icon={faCalendarCheck} onClick={this.handleComplete}/>
+              {/* <button onClick={this.handleComplete}>Complete</button> */}
             </div>
           )
           : null
