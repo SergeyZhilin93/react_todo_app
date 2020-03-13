@@ -6,6 +6,7 @@
 
 .new-task {
   display: flex;
+  align-items: center;
 }
 
 .new-task-input {
@@ -19,7 +20,8 @@
 .new-task-button {
 	color: #fff;
 	background: #000000;
-	padding: 5px 20px;
+  padding: 5px 20px;
+  height: 35px;
 	font-family: 'Indie Flower', cursive;
 } 
 .new-task-button:hover { 

@@ -35,6 +35,15 @@ export class Todo extends Component {
     })
   }
 
+  handleCompleteTask = (name, completed, id) => {
+    api.put(`/tasks/${id}`, { name, completed })
+    .then(res => {
+      const completedTask = this.state.tasks.find(task => res.data.id == task.id )
+      completedTask.completed = !res.data.completed
+      this.setState({ tasks: this.state.tasks})
+    })
+  }
+
   render() {
     // this.props.data = {
     //   name: 'asd',
@@ -55,7 +64,7 @@ export class Todo extends Component {
           <div className='tasks-list'>
             <p className='tasks-list-head'>Список заданий:</p>
             {
-              this.state.tasks.map((task, index) => <Task onUpdateTask={this.handleUpdateTask} key={task.id} data={task} index={index + 1}/>)
+              this.state.tasks.map((task, index) => <Task onCompletesdTask={this.handleCompleteTask} onUpdateTask={this.handleUpdateTask} key={task.id} data={task} index={index + 1}/>)
             }
           </div>
         </form>

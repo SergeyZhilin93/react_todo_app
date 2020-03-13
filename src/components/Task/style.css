@@ -5,9 +5,43 @@
 .task-update-button {
 	color: #fff;
 	background: #000000;
-	padding: 5px 20px;
+	margin: 0 0 0 10px;
+	/* padding: 5px 20px; */
 	font-family: 'Indie Flower', cursive;
 } 
 .task-update-button:hover { 
 background: #E85F4C;
+}
+
+.task-list {
+	display: flex;
+	align-items: center;
+}
+
+.updateTask-button {
+	font-size: 20px;
+	padding: 0 0 0 10px;
+	cursor: pointer;
+}
+
+.deleteTask-button {
+	font-size: 20px;
+	padding: 0 0 0 10px;
+	cursor: pointer;
+}
+
+.task-complete-button {
+	font-size: 20px;
+	padding: 0 0 0 10px;
+	cursor: pointer;
+}
+
+.update-form {
+	display: flex;
+	align-items: center;
+}
+
+.complete-task-list {
+	display: flex;
+	align-items: center;
 }
