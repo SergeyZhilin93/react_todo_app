@@ -20,26 +20,30 @@ export class Task extends Component {
     this.setState({ formActive: !this.state.formActive })
   }
 
-  handleSubmit = e  => {
-    const { name, completed, id } = this.props.data  //достаем из объекта this.props.data нужные нам значения по ключам
+  handleUpdate = e  => {
+    const { completed, id } = this.props.data  //достаем из объекта this.props.data нужные нам значения по ключам
     //строчка 24 короткая запись следующих строчек
     // const name = this.props.data.name
     // const completed = this.props.data.completed
     // const id = this.props.data.id
     e.preventDefault()
-      this.props.onUpdateTask(name, completed, id)
+      this.props.onUpdateTask(this.state.inputValue, completed, id)
       this.setState({ formActive: !this.state.formActive })
   }
 
+  
+
   handleDelete = e => {
+    const {id} = this.props.data
     e.preventDefault()
-    api.delete(`/tasks/${this.props.data.id}`)
+    this.props.onDeleteTask(id)
+    // api.delete(`/tasks/${this.props.data.id}`)
   }
 
   handleComplete = e => {
     const { name, completed, id } = this.props.data
     e.preventDefault()
-    this.props.onCompletesdTask(name, completed, id)
+    this.props.onCompletesdTask(name, !completed, id)
     this.setState({ formActive: !this.state.formActive })
   }
   
@@ -78,8 +82,11 @@ export class Task extends Component {
               type='text' 
               name='update' 
               className='task-update' 
-              defaultValue={this.props.data.name}></input>
-              <button onClick={this.handleSubmit} className='task-update-button'>Изменить задание</button>
+              defaultValue={this.props.data.name}
+              onKeyPress={this.preventFormSubmit}
+              >
+              </input>
+              <button onClick={this.handleUpdate} className='task-update-button'>Изменить задание</button>
               <p className='task-complete-button'>
                 <FontAwesomeIcon icon={faCalendarCheck} onClick={this.handleComplete}/>
               </p>

@@ -1,10 +1,10 @@
-.form-tasks {
+.new-task {
   max-width: 1170px;
   width: 100%;
   margin: 0 auto;
 }
 
-.new-task {
+.form-tasks {
   display: flex;
   align-items: center;
 }

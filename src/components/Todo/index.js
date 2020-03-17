@@ -36,12 +36,26 @@ export class Todo extends Component {
   }
 
   handleCompleteTask = (name, completed, id) => {
-    api.put(`/tasks/${id}`, { name, completed })
-    .then(res => {
-      const completedTask = this.state.tasks.find(task => res.data.id == task.id )
-      completedTask.completed = !res.data.completed
-      this.setState({ tasks: this.state.tasks})
-    })
+    const confirmComplete = window.confirm('Вы действительно хотите завершить задачу?')
+    if (confirmComplete) {
+      api.put(`/tasks/${id}`, { name, completed })
+      .then(res => {
+        const completedTask = this.state.tasks.find(task => res.data.id == task.id )
+        completedTask.completed = res.data.completed
+        this.setState({ tasks: this.state.tasks})
+      })
+    }
+  }
+
+  handleDeleteTask = id => {
+    const confirmDelete = window.confirm('Вы действительно хотите удалить задачу?')
+    if (confirmDelete) {
+      api.delete(`/tasks/${id}`)
+        .then(res => {
+          const deleteTask = this.state.tasks.filter(task => res.data.id !== task.id)
+          this.setState({tasks: deleteTask})
+        })
+    }
   }
 
   render() {
@@ -55,19 +69,19 @@ export class Todo extends Component {
     return(
       <Fragment>
         <Header/>
-        <form className='form-tasks'>
-          <div className='new-task'>
+        <div className='new-task'>
+          <form className='form-task'>
             <p className='new-task-head'>Новая задача:</p>
             <input onChange={this.handleInputChange} type='text' name='new-task' className='new-task-input'></input>
             <button onClick={this.handleSubmit} className='new-task-button' >Создать задачу</button>
-          </div>
-          <div className='tasks-list'>
+          </form>
+          <form className='tasks-list'>
             <p className='tasks-list-head'>Список заданий:</p>
             {
-              this.state.tasks.map((task, index) => <Task onCompletesdTask={this.handleCompleteTask} onUpdateTask={this.handleUpdateTask} key={task.id} data={task} index={index + 1}/>)
+              this.state.tasks.map((task, index) => <Task onDeleteTask={this.handleDeleteTask} onCompletesdTask={this.handleCompleteTask} onUpdateTask={this.handleUpdateTask} key={task.id} data={task} index={index + 1}/>)
             }
-          </div>
-        </form>
+          </form>
+        </div>
       </Fragment>
     )
   }
