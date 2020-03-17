@@ -31,8 +31,6 @@ export class Task extends Component {
       this.setState({ formActive: !this.state.formActive })
   }
 
-  
-
   handleDelete = e => {
     const {id} = this.props.data
     e.preventDefault()

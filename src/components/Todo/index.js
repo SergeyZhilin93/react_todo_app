@@ -7,7 +7,8 @@ import './style.css'
 export class Todo extends Component {
   state = {
     task: '',
-    tasks: []
+    tasks: [],
+    createTaskDisabled: false 
   }
   
   componentDidMount() {
@@ -20,9 +21,13 @@ export class Todo extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    api.post('/tasks', { name: this.state.task })
-      .then(res => this.setState({ tasks: [...this.state.tasks, res.data]}) )
-      .catch(err => console.log('Error has accured during creating task', err))
+    const { createTaskDisabled, task, tasks } = this.state
+    if (createTaskDisabled == false) {
+      this.setState({ createTaskDisabled: true})
+      api.post('/tasks', { name: task })
+        .then(res => this.setState({ tasks: [...tasks, res.data], createTaskDisabled: false}))
+        .catch(() => this.setState({ createTaskDisabled: false}))
+    }
   }
 
   handleUpdateTask = (name, completed, id) => {
@@ -73,7 +78,7 @@ export class Todo extends Component {
           <form className='form-task'>
             <p className='new-task-head'>Новая задача:</p>
             <input onChange={this.handleInputChange} type='text' name='new-task' className='new-task-input'></input>
-            <button onClick={this.handleSubmit} className='new-task-button' >Создать задачу</button>
+            <button onClick={this.handleSubmit} className='new-task-button' disabled={this.state.createTaskDisabled}>Создать задачу</button>
           </form>
           <form className='tasks-list'>
             <p className='tasks-list-head'>Список заданий:</p>
