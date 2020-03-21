@@ -12,7 +12,7 @@ export class Todo extends Component {
   }
   
   componentDidMount() {
-    api.get('/tasks')
+    api.get('/tasks', {headers: JSON.parse(localStorage.getItem('user'))})
       .then(res => this.setState({ tasks: res.data }))
       .catch(err => console.log('Error has accured during fetching tasks', err))
   }
@@ -24,14 +24,14 @@ export class Todo extends Component {
     const { createTaskDisabled, task, tasks } = this.state
     if (createTaskDisabled == false) {
       this.setState({ createTaskDisabled: true})
-      api.post('/tasks', { name: task })
+      api.post('/tasks', { name: task }, {headers: JSON.parse(localStorage.getItem('user'))})
         .then(res => this.setState({ tasks: [...tasks, res.data], createTaskDisabled: false}))
         .catch(() => this.setState({ createTaskDisabled: false}))
     }
   }
 
   handleUpdateTask = (name, completed, id) => {
-    api.put(`/tasks/${id}`, { name, completed })
+    api.put(`/tasks/${id}`, { name, completed }, {headers: JSON.parse(localStorage.getItem('user'))})
     .then(res => {
       const updatedTask = this.state.tasks.find(task => res.data.id == task.id )
       if (!updatedTask) return
@@ -43,7 +43,7 @@ export class Todo extends Component {
   handleCompleteTask = (name, completed, id) => {
     const confirmComplete = window.confirm('Вы действительно хотите завершить задачу?')
     if (confirmComplete) {
-      api.put(`/tasks/${id}`, { name, completed })
+      api.put(`/tasks/${id}`, { name, completed }, {headers: JSON.parse(localStorage.getItem('user'))})
       .then(res => {
         const completedTask = this.state.tasks.find(task => res.data.id == task.id )
         completedTask.completed = res.data.completed
@@ -55,7 +55,7 @@ export class Todo extends Component {
   handleDeleteTask = id => {
     const confirmDelete = window.confirm('Вы действительно хотите удалить задачу?')
     if (confirmDelete) {
-      api.delete(`/tasks/${id}`)
+      api.delete(`/tasks/${id}`, {headers: JSON.parse(localStorage.getItem('user'))})
         .then(res => {
           const deleteTask = this.state.tasks.filter(task => res.data.id !== task.id)
           this.setState({tasks: deleteTask})

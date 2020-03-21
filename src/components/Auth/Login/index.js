@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
 import { login } from '../../../api/auth.js';
 import './style.css'
 
@@ -20,7 +21,10 @@ class Login extends Component {
   handleSubmit = e => {
     e.preventDefault()
     login({email: this.state.login, password: this.state.password})
-      .then(() => this.props.history.push("/todo"))
+      .then(res => {
+        localStorage.setItem('user', JSON.stringify(res.headers))
+        this.props.history.push("/todo")
+      })
       .catch(() => alert('Неправильный email или пароль!'))
   }
 
@@ -37,6 +41,7 @@ class Login extends Component {
           <input onChange={this.handlePasswordChange} type='password' name='password' className='form-group-input'></input>
         </div>
         <button onClick={this.handleSubmit} className='form-button'>Enter</button>
+        <Link to='/registration'>Registration</Link>
       </form>
     )
   }

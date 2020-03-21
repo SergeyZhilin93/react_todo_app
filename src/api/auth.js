@@ -1,7 +1,9 @@
+import { api } from ".";
+
 export function login(data) {
-  return new Promise((resolve, reject) => {
-    if (data.email == 'dog@dog.com' && data.password == 'dog') {
-      return resolve()
-    } else return reject()
-  })
+  return api.post('/auth/sign_in', data)
+}
+
+export function registration(data) {
+  return api.post('/auth', data)
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import Login from './components/Auth/Login';
+import Registration from './components/Auth/Registration'
 import { Todo } from './components/Todo';
 import {
   BrowserRouter as Router,
@@ -12,12 +13,9 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/todo">
-          <Todo/>
-        </Route>
-        <Route path="/">
-          <Login/>
-        </Route>
+        <Route path="/todo" component={Todo}></Route>
+        <Route path='/registration' component={Registration}></Route>
+        <Route path="/" component={Login}></Route>
       </Switch>
     </Router>
   );
