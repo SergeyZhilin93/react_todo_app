@@ -31,7 +31,7 @@ class Login extends Component {
   render() {
     return (
       <form className='login-form'>
-        <p className='form-heading'>Test Site</p>
+        <p className='form-heading'>Login</p>
         <div className='form-group'>
           <label>Email :</label>
           <input onChange={this.handleUserNameChange} type='email' name='login' className='form-group-input'></input>

@@ -21,6 +21,7 @@ export class Todo extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
+    if (this.state.task.length == 0) return
     const { createTaskDisabled, task, tasks } = this.state
     if (createTaskDisabled == false) {
       this.setState({ createTaskDisabled: true})
