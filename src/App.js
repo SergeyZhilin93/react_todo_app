@@ -1,7 +1,7 @@
 import React from 'react';
 import Login from './components/Auth/Login';
 import Registration from './components/Auth/Registration'
-import { Todo } from './components/Todo';
+import { Admin } from './components/Admin';
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,7 +13,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/todo" component={Todo}></Route>
+        <Route path="/admin" component={Admin}></Route>
         <Route path='/registration' component={Registration}></Route>
         <Route path="/" component={Login}></Route>
       </Switch>

@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { api } from '../../api'
+import { Comments } from '../Comments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenSquare, faTrashAlt, faCalendarCheck } from '@fortawesome/free-solid-svg-icons'
+import { faPenSquare, faTrashAlt, faCalendarCheck, faCommentDots } from '@fortawesome/free-solid-svg-icons'
 import './style.css'
 
 export class Task extends Component {
@@ -9,6 +10,8 @@ export class Task extends Component {
   state = {
     inputValue: '',
     formActive: false,
+    isAdmin: true,
+    commentActive: false
   }
 
   handleChange = e => {
@@ -44,6 +47,8 @@ export class Task extends Component {
     this.props.onCompletesdTask(name, !completed, id)
     this.setState({ formActive: !this.state.formActive })
   }
+
+  handleComments = () => this.setState({ commentActive: !this.state.commentActive })
   
   render() {
     return(
@@ -67,6 +72,12 @@ export class Task extends Component {
                 <p className='deleteTask-button'>
                   <FontAwesomeIcon icon={faTrashAlt} onClick={this.handleDelete}/>
                 </p>
+                <p className='task-complete-button'>
+                  <FontAwesomeIcon icon={faCalendarCheck} onClick={this.handleComplete}/>
+                </p>
+                <p className='task-comment-button'>
+                  <FontAwesomeIcon icon={faCommentDots} onClick={this.handleComments}/>
+                </p>
               </div>
             )
           }
@@ -74,7 +85,7 @@ export class Task extends Component {
         {
           this.state.formActive ?
           (
-            <div className='update-form'>
+            <form className='update-form'>
               <input 
               onChange={this.handleChange} 
               type='text' 
@@ -85,12 +96,12 @@ export class Task extends Component {
               >
               </input>
               <button onClick={this.handleUpdate} className='task-update-button'>Изменить задание</button>
-              <p className='task-complete-button'>
-                <FontAwesomeIcon icon={faCalendarCheck} onClick={this.handleComplete}/>
-              </p>
-            </div>
+            </form>
           )
           : null
+        }
+        {
+          this.state.commentActive ? <Comments comments={this.props.data.comments}/> : null
         }
       </Fragment>
     )

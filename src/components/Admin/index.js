@@ -4,7 +4,7 @@ import { api } from '../../api';
 import { Task } from '../Task';
 import './style.css'
 
-export class Todo extends Component {
+export class Admin extends Component {
   state = {
     task: '',
     tasks: [],
@@ -77,16 +77,18 @@ export class Todo extends Component {
         <Header/>
         <div className='new-task'>
           <form className='form-task'>
+            <span>Исполнитель: </span>
+            <input type='email' placeholder='email'></input>
             <p className='new-task-head'>Новая задача:</p>
             <input onChange={this.handleInputChange} type='text' name='new-task' className='new-task-input'></input>
             <button onClick={this.handleSubmit} className='new-task-button' disabled={this.state.createTaskDisabled}>Создать задачу</button>
           </form>
-          <form className='tasks-list'>
+          <div className='tasks-list'>
             <p className='tasks-list-head'>Список заданий:</p>
             {
               this.state.tasks.map((task, index) => <Task onDeleteTask={this.handleDeleteTask} onCompletesdTask={this.handleCompleteTask} onUpdateTask={this.handleUpdateTask} key={task.id} data={task} index={index + 1}/>)
             }
-          </form>
+          </div>
         </div>
       </Fragment>
     )
