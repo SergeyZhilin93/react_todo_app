@@ -11,7 +11,12 @@ export class Task extends Component {
     inputValue: '',
     formActive: false,
     isAdmin: true,
-    commentActive: false
+    commentActive: false,
+    comments: []
+  }
+
+  componentDidMount() {
+    this.setState({ comments: this.props.data.comments})
   }
 
   handleChange = e => {
@@ -49,6 +54,12 @@ export class Task extends Component {
   }
 
   handleComments = () => this.setState({ commentActive: !this.state.commentActive })
+
+  handleSubmitComments = (comment, taskId) => {
+    api.post('/comments', {comment: comment, task_id: taskId }, {headers: JSON.parse(localStorage.getItem('user'))})
+      .then(res => this.setState({ comments: [...this.state.comments, res.data] }))
+      .catch(() => alert('Все плохо!'))
+  }
   
   render() {
     return(
@@ -101,7 +112,7 @@ export class Task extends Component {
           : null
         }
         {
-          this.state.commentActive ? <Comments comments={this.props.data.comments}/> : null
+          this.state.commentActive ? <Comments onSubmitComent={this.handleSubmitComments} taskId={this.props.data.id} comments={this.state.comments}/> : null
         }
       </Fragment>
     )
