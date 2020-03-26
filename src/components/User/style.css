@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap');
+
+.new-task {
+  max-width: 1170px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.form-tasks {
+  display: flex;
+  align-items: center;
+}
+
+.new-task-input {
+  margin: 10px;  
+}
+
+/* .new-task-button {
+  margin: 10px;
+} */
+
+.new-task-button {
+	color: #fff;
+	background: #000000;
+  padding: 5px 20px;
+  height: 35px;
+	font-family: 'Indie Flower', cursive;
+} 
+.new-task-button:hover { 
+background: #E85F4C;
+}

@@ -23,7 +23,8 @@ class Login extends Component {
     login({email: this.state.login, password: this.state.password})
       .then(res => {
         localStorage.setItem('user', JSON.stringify(res.headers))
-        this.props.history.push("/todo")
+        const route = res.data.data.isAdmin ? '/admin' : '/user'
+        this.props.history.push(route)
       })
       .catch(() => alert('Неправильный email или пароль!'))
   }
