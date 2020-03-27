@@ -8,10 +8,17 @@ export class Admin extends Component {
   state = {
     task: '',
     tasks: [],
-    createTaskDisabled: false 
+    createTaskDisabled: false,
+    user: {}
   }
   
   componentDidMount() {
+    api.post('/get_user', {}, {headers: JSON.parse(localStorage.getItem('user'))})
+      .then(res => {
+        if (!res.data.isAdmin) return this.props.history.push('/')
+        this.setState({ user: res.data })
+      })
+      .catch(() => this.props.history.push('/'))
     api.get('/tasks', {headers: JSON.parse(localStorage.getItem('user'))})
       .then(res => this.setState({ tasks: res.data }))
       .catch(err => console.log('Error has accured during fetching tasks', err))
@@ -65,14 +72,7 @@ export class Admin extends Component {
   }
 
   render() {
-    // this.props.data = {
-    //   name: 'asd',
-    //   completed: false,
-    //   created_at: 'sdvdfvdf',
-    //   updated_at: 'asdasdas',
-    //   id: 1
-    // }
-    const {isAdmin} = this.props.history.location.state
+    const { isAdmin } = this.state.user
     return(
       <Fragment>
         <Header/>

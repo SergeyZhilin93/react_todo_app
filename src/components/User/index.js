@@ -6,12 +6,14 @@ import './style.css'
 
 export class User extends Component {
   state = {
-    // task: '',
     tasks: [],
-    // createTaskDisabled: false 
+    user: {}
   }
   
   componentDidMount() {
+    api.post('/get_user', {}, {headers: JSON.parse(localStorage.getItem('user'))})
+      .then(res => this.setState({ user: res.data }))
+      .catch(() => this.props.history.push('/'))
     api.get('/tasks', {headers: JSON.parse(localStorage.getItem('user'))})
       .then(res => this.setState({ tasks: res.data }))
       .catch(err => console.log('Error has accured during fetching tasks', err))
@@ -30,7 +32,7 @@ export class User extends Component {
   }
   
   render() {
-    const {isAdmin} = this.props.history.location.state
+    const { isAdmin } = this.state.user
     return(
       <Fragment>
         <Header/>
