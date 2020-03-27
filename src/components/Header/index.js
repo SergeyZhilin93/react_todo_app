@@ -10,6 +10,10 @@ export class Header extends Component {
     showDropDown: false
   }
   toggleDropdown = () => this.setState({showDropDown: !this.state.showDropDown })
+
+  toogleLogout = () => {
+    localStorage.clear("user")
+  }
   
   render() {
     return (
@@ -24,7 +28,7 @@ export class Header extends Component {
               <div className='header-dropdown'>
                 <p className='dropdown-link'>Профиль</p>
                 <p className='dropdown-link'>Настройки</p>
-                <Link to='/' className='dropdown-link'>Выход</Link>
+                <Link to='/' onClick={this.toogleLogout} className='dropdown-link'>Выход</Link>
               </div>
             ) : null
           }
