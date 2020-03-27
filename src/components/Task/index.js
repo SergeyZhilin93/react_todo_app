@@ -10,7 +10,7 @@ export class Task extends Component {
   state = {
     inputValue: '',
     formActive: false,
-    isAdmin: true,
+    isAdmin: false,
     commentActive: false,
     comments: []
   }
@@ -50,7 +50,6 @@ export class Task extends Component {
     const { name, completed, id } = this.props.data
     e.preventDefault()
     this.props.onCompletesdTask(name, !completed, id)
-    this.setState({ formActive: !this.state.formActive })
   }
 
   handleComments = () => this.setState({ commentActive: !this.state.commentActive })
@@ -62,50 +61,54 @@ export class Task extends Component {
   }
   
   render() {
+    const { isAdmin, data: { completed } } = this.props
     return(
       <Fragment >
         <div>
-          {
-            this.props.data.completed ? 
-            (
-              <div className='complete-task-list'>
-                <p className='completed-task'>{`${this.props.index} ${this.props.data.name}`}</p>
-                <FontAwesomeIcon icon={faTrashAlt} className='deleteTask-button' onClick={this.handleDelete}/>
-              </div>
-            )
-            : 
-            (
-              <div className='task-list'>
-                <p className='text-list'>{`${this.props.index} ${this.props.data.name}`}</p>
-                <p className='updateTask-button'>
-                  <FontAwesomeIcon icon={faPenSquare} onClick={this.toggleForm} />
-                </p>
-                <p className='deleteTask-button'>
-                  <FontAwesomeIcon icon={faTrashAlt} onClick={this.handleDelete}/>
-                </p>
-                <p className='task-complete-button'>
-                  <FontAwesomeIcon icon={faCalendarCheck} onClick={this.handleComplete}/>
-                </p>
-                <p className='task-comment-button'>
-                  <FontAwesomeIcon icon={faCommentDots} onClick={this.handleComments}/>
-                </p>
-              </div>
-            )
-          }
-        </div>
+          <div className='task-list'>
+            <p className={completed ? 'completed-task' : ''}>{`${this.props.index} ${this.props.data.name}`}</p>
+            { 
+              isAdmin ? (
+                <Fragment>
+                  <p className='deleteTask-button'>
+                    <FontAwesomeIcon icon={faTrashAlt} onClick={this.handleDelete}/>
+                  </p>
+                  {
+                    !completed ? (
+                    <p className='updateTask-button'>
+                      <FontAwesomeIcon icon={faPenSquare} onClick={this.toggleForm} />
+                    </p>
+                    ) : null
+                  }
+                </Fragment>
+              ) : null 
+            }
+            {
+              !completed ? (
+                <Fragment>
+                  <p className='task-complete-button'>
+                    <FontAwesomeIcon icon={faCalendarCheck} onClick={this.handleComplete}/>
+                  </p>
+                  <p className='task-comment-button'>
+                    <FontAwesomeIcon icon={faCommentDots} onClick={this.handleComments}/>
+                  </p>
+                </Fragment>
+              ) : null
+            }
+          </div>
+      </div>
         {
           this.state.formActive ?
           (
             <form className='update-form'>
               <input 
-              onChange={this.handleChange} 
-              type='text' 
-              name='update' 
-              className='task-update' 
-              defaultValue={this.props.data.name}
-              onKeyPress={this.preventFormSubmit}
-              >
-              </input>
+                onChange={this.handleChange} 
+                type='text' 
+                name='update' 
+                className='task-update' 
+                defaultValue={this.props.data.name}
+                onKeyPress={this.preventFormSubmit}
+              />
               <button onClick={this.handleUpdate} className='task-update-button'>Изменить задание</button>
             </form>
           )

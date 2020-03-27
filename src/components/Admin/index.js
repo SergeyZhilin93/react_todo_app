@@ -72,6 +72,7 @@ export class Admin extends Component {
     //   updated_at: 'asdasdas',
     //   id: 1
     // }
+    const {isAdmin} = this.props.history.location.state
     return(
       <Fragment>
         <Header/>
@@ -86,7 +87,7 @@ export class Admin extends Component {
           <div className='tasks-list'>
             <p className='tasks-list-head'>Список заданий:</p>
             {
-              this.state.tasks.map((task, index) => <Task onDeleteTask={this.handleDeleteTask} onCompletesdTask={this.handleCompleteTask} onUpdateTask={this.handleUpdateTask} key={task.id} data={task} index={index + 1}/>)
+              this.state.tasks.map((task, index) => <Task isAdmin={isAdmin} onDeleteTask={this.handleDeleteTask} onCompletesdTask={this.handleCompleteTask} onUpdateTask={this.handleUpdateTask} key={task.id} data={task} index={index + 1}/>)
             }
           </div>
         </div>
