@@ -75,7 +75,7 @@ export class Admin extends Component {
     const { isAdmin } = this.state.user
     return(
       <Fragment>
-        <Header/>
+        <Header author={this.state.user.email}/>
         <div className='new-task'>
           <form className='form-task'>
             <span>Исполнитель: </span>
