@@ -2,7 +2,8 @@ import React from 'react';
 import Login from './components/Auth/Login';
 import Registration from './components/Auth/Registration'
 import { Admin } from './components/Admin';
-import { User } from './components/User'
+import { User } from './components/User';
+import { Profile } from './components/Profile'
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,9 +15,10 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/admin" component={Admin}></Route>
-        <Route path='/user' component={User}></Route>
-        <Route path='/registration' component={Registration}></Route>
+        <Route path="/admin" component={Admin}/>
+        <Route path='/user' component={User}/>
+        <Route path='/registration' component={Registration}/>
+        <Route path='/profile' component={Profile}/>
         <Route path="/" component={Login}></Route>
       </Switch>
     </Router>
