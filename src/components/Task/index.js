@@ -61,12 +61,13 @@ export class Task extends Component {
   }
   
   render() {
-    const { isAdmin, data: { completed } } = this.props
+    const { isAdmin, data: { completed, performer } } = this.props
     return(
       <Fragment >
         <div>
           <div className='task-list'>
             <p className={completed ? 'completed-task' : ''}>{`${this.props.index} ${this.props.data.name}`}</p>
+            <span>({performer})</span>
             { 
               isAdmin ? (
                 <Fragment>

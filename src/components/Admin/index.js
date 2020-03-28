@@ -9,7 +9,8 @@ export class Admin extends Component {
     task: '',
     tasks: [],
     createTaskDisabled: false,
-    user: {}
+    user: {},
+    email: ''
   }
   
   componentDidMount() {
@@ -29,10 +30,11 @@ export class Admin extends Component {
   handleSubmit = e => {
     e.preventDefault()
     if (this.state.task.length == 0) return
-    const { createTaskDisabled, task, tasks } = this.state
+    const { createTaskDisabled, task, tasks, email, user } = this.state
     if (createTaskDisabled == false) {
+      if (email == user.email || email.length == 0) return alert('Введите email пользователя!')
       this.setState({ createTaskDisabled: true})
-      api.post('/tasks', { name: task }, {headers: JSON.parse(localStorage.getItem('user'))})
+      api.post('/tasks', { name: task, email }, {headers: JSON.parse(localStorage.getItem('user'))})
         .then(res => this.setState({ tasks: [...tasks, res.data], createTaskDisabled: false}))
         .catch(() => this.setState({ createTaskDisabled: false}))
     }
@@ -71,6 +73,8 @@ export class Admin extends Component {
     }
   }
 
+  handleUserEmail = e => this.setState({ email: e.target.value })
+
   render() {
     const { isAdmin } = this.state.user
     return(
@@ -79,7 +83,7 @@ export class Admin extends Component {
         <div className='new-task'>
           <form className='form-task'>
             <span>Исполнитель: </span>
-            <input type='email' placeholder='email'></input>
+            <input type='email' placeholder='email' onChange={this.handleUserEmail}></input>
             <p className='new-task-head'>Новая задача:</p>
             <input onChange={this.handleInputChange} type='text' name='new-task' className='new-task-input'></input>
             <button onClick={this.handleSubmit} className='new-task-button' disabled={this.state.createTaskDisabled}>Создать задачу</button>
@@ -88,6 +92,7 @@ export class Admin extends Component {
             <p className='tasks-list-head'>Список заданий:</p>
             {
               this.state.tasks.map((task, index) => <Task isAdmin={isAdmin} onDeleteTask={this.handleDeleteTask} onCompletesdTask={this.handleCompleteTask} onUpdateTask={this.handleUpdateTask} key={task.id} data={task} index={index + 1}/>)
+              
             }
           </div>
         </div>
