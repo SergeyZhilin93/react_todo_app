@@ -6,7 +6,6 @@ import { faPenSquare, faTrashAlt, faCalendarCheck, faCommentDots } from '@fortaw
 import './style.css'
 
 export class Task extends Component {
-  
   state = {
     inputValue: '',
     formActive: false,
@@ -108,7 +107,6 @@ export class Task extends Component {
                 name='update' 
                 className='task-update' 
                 defaultValue={this.props.data.name}
-                onKeyPress={this.preventFormSubmit}
               />
               <button onClick={this.handleUpdate} className='task-update-button'>Изменить задание</button>
             </form>
