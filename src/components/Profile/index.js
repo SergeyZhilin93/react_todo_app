@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { withRouter } from "react-router";
 import { api } from '../../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenSquare } from '@fortawesome/free-solid-svg-icons'
+import { faPenSquare, faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
+import './style.css'
 
 export class Profile extends Component {
   state = {
-    nameActive: false,
+    editActive: false,
     userName: '',
     userAvatar: '',
     user: {}
@@ -24,39 +25,48 @@ export class Profile extends Component {
 
   handleAvatarChange = e => this.setState({ userAvatar: e.target.value })
 
-  handleClickEdit = () => this.setState({ nameActive: !this.state.nameActive })
+  handleClickEdit = () => this.setState({ editActive: !this.state.editActive })
 
   handleSubmit = e => {
     e.preventDefault()
-    const { userName, userAvatar } = this.state
+    const { userName, userAvatar, editActive } = this.state
     api.post('/update_user', { name: userName, avatar: userAvatar }, {headers: JSON.parse(localStorage.getItem('user'))})
       .then(res => {
         this.setState({user: res.data})
       })
       .catch(() => alert('Не получилось изменить данные!'))
+    this.setState({ editActive: !editActive })
   }
 
   render() {
-    const { email, name, avatar_url } = this.state.user
+    const { user: { email, name, avatar_url }, editActive  } = this.state
     return(
-      <form>
-        <button type='button' onClick={this.handleBack}>Back</button>
-        <div>
-          <p className='avatar-icon'></p>
-          <img src={avatar_url}></img>
-          <p>Avatart</p>
-          <input type='url' onChange={this.handleAvatarChange}></input>
-        </div>
-        <div>
-          <div>
-            <input type='text' defaultValue={name} onChange={this.handleChangeInput}></input>
+      <Fragment>
+        <p className='back-button'>
+          <FontAwesomeIcon type='button' icon={faArrowAltCircleLeft} onClick={this.handleBack}/>
+        </p>
+        {/* <button type='button' onClick={this.handleBack}>Back</button> */}
+        <form className='form-profile'>
+          <p className='profile-head'>Your Profile</p>
+          <div className='avatar-edit-blok'>
+            <img src={avatar_url} className='avatar-user'></img>
+            {
+              editActive ? <input type='url' defaultValue={avatar_url} onChange={this.handleAvatarChange}></input> : null
+            }
+            <p className='paragraf-name'>Avatar</p>
           </div>
-          <p>Name: {name}</p>
-        </div>
-        <p>Email: {email}</p>
-      <FontAwesomeIcon icon={faPenSquare} onClick={this.handleClickEdit} />
-      <button onClick={this.handleSubmit}>SAVE</button>
-      </form>
+          <div className='name-blok'>
+            {
+              editActive ? <input type='text' defaultValue={name} onChange={this.handleChangeInput}></input> : null
+            }
+            <p className='paragraf-name'>Name: {name}</p>
+          </div>
+          <p className='paragraf-name'>Email: {email}</p>
+        {
+          editActive ? <button onClick={this.handleSubmit}>SAVE</button> : <FontAwesomeIcon icon={faPenSquare} onClick={this.handleClickEdit}/>
+        }
+        </form>
+      </Fragment>
     )
   }
 }

@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap');
+
+.avatar-user {
+  height: 150px;
+}
+
+.form-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.name-blok {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-edit-blok {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.paragraf-name {
+  padding: 0 0 0 10px;
+}
+
+.profile-head {
+  margin: 0;
+  font-size: 100px;
+  font-family: 'Indie Flower', cursive;
+}
+
+.back-button {
+  margin: 0;
+  font-size: 40px;
+	padding: 0 0 0 10px;
+	cursor: pointer;
+}
