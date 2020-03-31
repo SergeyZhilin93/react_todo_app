@@ -28,7 +28,6 @@ export class Header extends Component {
             this.state.showDropDown == true ? (
               <div className='header-dropdown'>
                 <Link to='/profile' className='dropdown-link'>Profile</Link>
-                <p className='dropdown-link'>Профиль</p>
                 <p className='dropdown-link'>Настройки</p>
                 <Link to='/' onClick={this.toogleLogout} className='dropdown-link'>Выход</Link>
               </div>

@@ -45,7 +45,6 @@ export class Profile extends Component {
         <p className='back-button'>
           <FontAwesomeIcon type='button' icon={faArrowAltCircleLeft} onClick={this.handleBack}/>
         </p>
-        {/* <button type='button' onClick={this.handleBack}>Back</button> */}
         <form className='form-profile'>
           <p className='profile-head'>Your Profile</p>
           <div className='avatar-edit-blok'>
