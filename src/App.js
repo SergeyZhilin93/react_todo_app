@@ -10,6 +10,7 @@ import {
   Route
 } from "react-router-dom";
 import './App.css';
+import { MainScreen } from './components/Auth/MainScreen';
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
         <Route path='/user' component={User}/>
         <Route path='/registration' component={Registration}/>
         <Route path='/profile' component={Profile}/>
-        <Route path="/" component={Login}></Route>
+        <Route path='/login' component={Login}/>
+        <Route path="/" component={MainScreen}/>
       </Switch>
     </Router>
   );

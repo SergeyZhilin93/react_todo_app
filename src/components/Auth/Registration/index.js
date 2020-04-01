@@ -28,7 +28,7 @@ class Registration extends Component {
 
   handleBack = e => {
     e.preventDefault()
-    this.props.history.push('/')
+    this.props.history.goBack()
   }
 
   render() {

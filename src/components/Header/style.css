@@ -1,13 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap');
+
 .header {
   max-width: 1170px;
   width: 100%;
-  margin: 0 auto;
+  margin: 5px auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .header-img {
-  width: 100px;
+  height: 80px;
 }
 .header-profile {
   position: relative;
@@ -31,4 +33,17 @@
 .header-more-icon {
   padding: 0 15px;
   cursor: pointer;
+}
+
+.header-logo {
+  height: 80px;
+}
+
+.logo-blok {
+  display: flex;
+  align-items: center;
+}
+
+.name-project {
+  font-family: 'Indie Flower', cursive;
 }

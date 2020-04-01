@@ -76,10 +76,11 @@ export class Admin extends Component {
   handleUserEmail = e => this.setState({ email: e.target.value })
 
   render() {
-    const { isAdmin } = this.state.user
+    console.log(this.state.user)
+    const { isAdmin, email, avatar_url } = this.state.user
     return(
       <Fragment>
-        <Header author={this.state.user.email}/>
+        <Header author={email} avatar={avatar_url}/>
         <div className='new-task'>
           <form className='form-task'>
             <span>Исполнитель: </span>

@@ -19,9 +19,12 @@ export class Header extends Component {
   render() {
     return (
       <header className='header' >
-        <p className="header-logo">logo</p>
+        <div className='logo-blok'>
+          <img src='https://upload.wikimedia.org/wikipedia/commons/a/ac/Oikya_Front_Logo.png' className="header-logo"/>
+          <p className='name-project'>Confirmation</p>
+        </div>
         <div className='header-profile'>
-          <img  className='header-img' src='https://cdn.cnn.com/cnnnext/dam/assets/180226110801-elettro-domestici-logo.jpg' alt='avatar'/>
+          <img  className='header-img' src={this.props.avatar} alt='avatar'/>
           <span className='header-userName'>{this.props.author}</span>
           <FontAwesomeIcon icon={faEllipsisV} className='header-more-icon' onClick={this.toggleDropdown} />
           {

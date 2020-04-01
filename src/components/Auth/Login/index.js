@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { withRouter } from "react-router";
-import { Link } from "react-router-dom";
 import { login } from '../../../api/auth.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import './style.css'
 
 class Login extends Component {
@@ -29,21 +30,30 @@ class Login extends Component {
       .catch(() => alert('Неправильный email или пароль!'))
   }
 
+  handleBack = e => {
+    e.preventDefault()
+    this.props.history.goBack()
+  }
+
   render() {
     return (
-      <form className='login-form'>
-        <p className='form-heading'>Login</p>
-        <div className='form-group'>
-          <label>Email :</label>
-          <input onChange={this.handleUserNameChange} type='email' name='login' className='form-group-input'></input>
-        </div>
-        <div className='form-group'>
-          <label>Password :</label>
-          <input onChange={this.handlePasswordChange} type='password' name='password' className='form-group-input'></input>
-        </div>
-        <button onClick={this.handleSubmit} className='form-button'>Enter</button>
-        <Link to='/registration'>Registration</Link>
-      </form>
+      <Fragment>
+        <p className='back-button'>
+          <FontAwesomeIcon icon={faArrowAltCircleLeft} onClick={this.handleBack}/>
+        </p>
+        <form className='login-form'>
+          <p className='form-heading'>Login</p>
+          <div className='form-group'>
+            <label>Email :</label>
+            <input onChange={this.handleUserNameChange} type='email' name='login' className='form-group-input'></input>
+          </div>
+          <div className='form-group'>
+            <label>Password :</label>
+            <input onChange={this.handlePasswordChange} type='password' name='password' className='form-group-input'></input>
+          </div>
+          <button onClick={this.handleSubmit} className='form-button'>Enter</button>
+        </form>
+      </Fragment>
     )
   }
 }
