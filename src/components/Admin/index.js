@@ -1,103 +1,111 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Header } from '../Header';
 import { api } from '../../api';
 import { Task } from '../Task';
 import './style.css'
 
-export class Admin extends Component {
-  state = {
-    task: '',
-    tasks: [],
-    createTaskDisabled: false,
-    user: {},
-    email: ''
-  }
+export function Admin(props) {
+  const [task, setTask] = useState('')
+  const [tasks, setTasks] = useState([])
+  const [createTaskDisabled, setCreateTaskDisabled] = useState(false)
+  const [user, setUser] = useState({})
+  const [email, setEmail] = useState('')
   
-  componentDidMount() {
+  useEffect(() => {
     api.post('/get_user', {}, {headers: JSON.parse(localStorage.getItem('user'))})
       .then(res => {
-        if (!res.data.isAdmin) return this.props.history.push('/')
-        this.setState({ user: res.data })
+        if (!res.data.isAdmin) return props.history.push('/')
+        setUser(res.data)
       })
-      .catch(() => this.props.history.push('/'))
+      .catch(() => props.history.push('/'))
     api.get('/tasks', {headers: JSON.parse(localStorage.getItem('user'))})
-      .then(res => this.setState({ tasks: res.data }))
+      .then(res => setTasks(res.data))
       .catch(err => console.log('Error has accured during fetching tasks', err))
-  }
+  }, [])
 
-  handleInputChange = e => this.setState({ task: e.target.value })
+  const handleInputChange = e => setTask(e.target.value)
 
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault()
-    if (this.state.task.length == 0) return
-    const { createTaskDisabled, task, tasks, email, user } = this.state
+    if (task.length == 0) return
     if (createTaskDisabled == false) {
       if (email == user.email || email.length == 0) return alert('Введите email пользователя!')
-      this.setState({ createTaskDisabled: true})
+      setCreateTaskDisabled(true)
       api.post('/tasks', { name: task, email }, {headers: JSON.parse(localStorage.getItem('user'))})
-        .then(res => this.setState({ tasks: [...tasks, res.data], createTaskDisabled: false}))
-        .catch(() => this.setState({ createTaskDisabled: false}))
+        .then(res => {
+          setTasks([...tasks, res.data])
+          setCreateTaskDisabled(false)})
+        .catch(() => setCreateTaskDisabled(false))
     }
   }
 
-  handleUpdateTask = (name, completed, id) => {
+  const handleUpdateTask = (name, completed, id) => {
     api.put(`/tasks/${id}`, { name, completed }, {headers: JSON.parse(localStorage.getItem('user'))})
     .then(res => {
-      const updatedTask = this.state.tasks.find(task => res.data.id == task.id )
+      const initialTasks = [...tasks]
+      const updatedTask = initialTasks.find(task => res.data.id == task.id )
       if (!updatedTask) return
       updatedTask.name = res.data.name
-      this.setState({ tasks: this.state.tasks})
+      setTasks(initialTasks)
     })
   }
 
-  handleCompleteTask = (name, completed, id) => {
+  const handleCompleteTask = (name, completed, id) => {
     const confirmComplete = window.confirm('Вы действительно хотите завершить задачу?')
     if (confirmComplete) {
       api.put(`/tasks/${id}`, { name, completed }, {headers: JSON.parse(localStorage.getItem('user'))})
       .then(res => {
-        const completedTask = this.state.tasks.find(task => res.data.id == task.id )
+        const initialTasks = [...tasks]
+        const completedTask = initialTasks.find(task => res.data.id == task.id )
         completedTask.completed = res.data.completed
-        this.setState({ tasks: this.state.tasks})
+        setTasks(initialTasks)
       })
     }
   }
 
-  handleDeleteTask = id => {
+  const handleDeleteTask = id => {
     const confirmDelete = window.confirm('Вы действительно хотите удалить задачу?')
     if (confirmDelete) {
       api.delete(`/tasks/${id}`, {headers: JSON.parse(localStorage.getItem('user'))})
         .then(res => {
-          const deleteTask = this.state.tasks.filter(task => res.data.id !== task.id)
-          this.setState({tasks: deleteTask})
+          const initialTasks = [...tasks]
+          const filteredTasks = initialTasks.filter(task => res.data.id !== task.id)
+          setTasks(filteredTasks)
         })
     }
   }
 
-  handleUserEmail = e => this.setState({ email: e.target.value })
+  const handleUserEmail = e => setEmail(e.target.value)
 
-  render() {
-    console.log(this.state.user)
-    const { isAdmin, email, avatar_url } = this.state.user
+    const { isAdmin, email: userEmail, avatar_url } = user
     return(
       <Fragment>
-        <Header author={email} avatar={avatar_url}/>
+        <Header author={userEmail} avatar={avatar_url}/>
         <div className='new-task'>
           <form className='form-task'>
             <span>Исполнитель: </span>
-            <input type='email' placeholder='email' onChange={this.handleUserEmail}></input>
+            <input type='email' placeholder='email' onChange={handleUserEmail}></input>
             <p className='new-task-head'>Новая задача:</p>
-            <input onChange={this.handleInputChange} type='text' name='new-task' className='new-task-input'></input>
-            <button onClick={this.handleSubmit} className='new-task-button' disabled={this.state.createTaskDisabled}>Создать задачу</button>
+            <input onChange={handleInputChange} type='text' name='new-task' className='new-task-input'></input>
+            <button onClick={handleSubmit} className='new-task-button' disabled={createTaskDisabled}>Создать задачу</button>
           </form>
           <div className='tasks-list'>
             <p className='tasks-list-head'>Список заданий:</p>
             {
-              this.state.tasks.map((task, index) => <Task isAdmin={isAdmin} onDeleteTask={this.handleDeleteTask} onCompletesdTask={this.handleCompleteTask} onUpdateTask={this.handleUpdateTask} key={task.id} data={task} index={index + 1}/>)
-              
+              tasks.map((task, index) => {
+                return (<Task 
+                        isAdmin={isAdmin} 
+                        onDeleteTask={handleDeleteTask} 
+                        onCompletesdTask={handleCompleteTask} 
+                        onUpdateTask={handleUpdateTask} 
+                        key={task.id} 
+                        data={task} 
+                        index={index + 1}
+                      />)
+                    })
             }
           </div>
         </div>
       </Fragment>
     )
   }
-}

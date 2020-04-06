@@ -1,27 +1,23 @@
-import React, { Component, Fragment } from 'react'
-import { api } from '../../api';
+import React, { Fragment, useState } from 'react'
 
-export class Comments extends Component {
-  state = {
-    inputValue: ''
-  }
+export function Comments({onSubmitComent, taskId, comments}) {
+  const [inputValue, setInputValue] = useState('')
 
-  handleChangeComment = e => this.setState({ inputValue: e.target.value })
+  const handleChangeComment = e => setInputValue(e.target.value)
 
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault()
-    this.props.onSubmitComent(this.state.inputValue, this.props.taskId )
+    onSubmitComent(inputValue, taskId )
   }
 
-  render() {
     return(
       <Fragment>
         <form>
-          <input type='text' onChange={this.handleChangeComment}></input>
-          <button onClick={this.handleSubmit}>Добавить коментарий</button>
+          <input type='text' onChange={handleChangeComment}></input>
+          <button onClick={handleSubmit}>Добавить коментарий</button>
         </form>
           {
-            this.props.comments.map(comment => {
+            comments.map(comment => {
               return (
                 <div key={comment.id}>
                   <span>{comment.author}</span>
@@ -32,4 +28,3 @@ export class Comments extends Component {
       </Fragment>
     )
   }
-}

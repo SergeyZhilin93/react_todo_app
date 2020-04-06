@@ -1,122 +1,118 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { api } from '../../api'
 import { Comments } from '../Comments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenSquare, faTrashAlt, faCalendarCheck, faCommentDots } from '@fortawesome/free-solid-svg-icons'
 import './style.css'
 
-export class Task extends Component {
-  state = {
-    inputValue: '',
-    formActive: false,
-    isAdmin: false,
-    commentActive: false,
-    comments: []
+export function Task({data, onUpdateTask, onDeleteTask, onCompletesdTask, isAdmin: isAdminProp, index}) {
+  const [inputValue, setInputValue] = useState('')
+  const [formActive, setFormActive] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [commentActive, setCommentActive] = useState(false)
+  const [comments, setComments] = useState([])
+
+  useEffect(() => {
+    setComments(data.comments)
+  }, [])
+
+  const handleChange = e => {
+    setInputValue(e.target.value)
   }
 
-  componentDidMount() {
-    this.setState({ comments: this.props.data.comments})
-  }
-
-  handleChange = e => {
-    this.setState({ inputValue: e.target.value })
-  }
-
-  toggleForm = e => {
+  const toggleForm = e => {
     e.preventDefault()
-    this.setState({ formActive: !this.state.formActive })
+    setFormActive(!formActive)
   }
 
-  handleUpdate = e  => {
-    const { completed, id } = this.props.data  //достаем из объекта this.props.data нужные нам значения по ключам
+  const handleUpdate = e  => {
+    const { completed, id } = data  //достаем из объекта this.props.data нужные нам значения по ключам
     //строчка 24 короткая запись следующих строчек
     // const name = this.props.data.name
     // const completed = this.props.data.completed
     // const id = this.props.data.id
     e.preventDefault()
-      this.props.onUpdateTask(this.state.inputValue, completed, id)
-      this.setState({ formActive: !this.state.formActive })
+      onUpdateTask(inputValue, completed, id)
+      setFormActive(!formActive)
   }
 
-  handleDelete = e => {
-    const {id} = this.props.data
+  const handleDelete = e => {
+    const {id} = data
     e.preventDefault()
-    this.props.onDeleteTask(id)
+    onDeleteTask(id)
     // api.delete(`/tasks/${this.props.data.id}`)
   }
 
-  handleComplete = e => {
-    const { name, completed, id } = this.props.data
+  const handleComplete = e => {
+    const { name, completed, id } = data
     e.preventDefault()
-    this.props.onCompletesdTask(name, !completed, id)
+    onCompletesdTask(name, !completed, id)
   }
 
-  handleComments = () => this.setState({ commentActive: !this.state.commentActive })
+  const handleComments = () => setCommentActive(!commentActive)
 
-  handleSubmitComments = (comment, taskId) => {
-    api.post('/comments', {comment: comment, task_id: taskId }, {headers: JSON.parse(localStorage.getItem('user'))})
-      .then(res => this.setState({ comments: [...this.state.comments, res.data] }))
+  const handleSubmitComments = (comment, taskId) => {
+    api.post('/comments', {comment, task_id: taskId }, {headers: JSON.parse(localStorage.getItem('user'))})
+      .then(res => setComments([...comments, res.data]))
       .catch(() => alert('Все плохо!'))
   }
   
-  render() {
-    const { isAdmin, data: { completed, performer } } = this.props
-    return(
-      <Fragment >
-        <div>
-          <div className='task-list'>
-            <p className={completed ? 'completed-task' : ''}>{`${this.props.index} ${this.props.data.name}`}</p>
-            <span>({performer})</span>
-            { 
-              isAdmin ? (
-                <Fragment>
-                  <p className='deleteTask-button'>
-                    <FontAwesomeIcon icon={faTrashAlt} onClick={this.handleDelete}/>
+  const {completed, performer, name, id} = data
+  return(
+    <Fragment >
+      <div>
+        <div className='task-list'>
+          <p className={completed ? 'completed-task' : ''}>{`${index} ${name}`}</p>
+          <span>({performer})</span>
+          { 
+            isAdminProp ? (
+              <Fragment>
+                <p className='deleteTask-button'>
+                  <FontAwesomeIcon icon={faTrashAlt} onClick={handleDelete}/>
+                </p>
+                {
+                  !completed ? (
+                  <p className='updateTask-button'>
+                    <FontAwesomeIcon icon={faPenSquare} onClick={toggleForm} />
                   </p>
-                  {
-                    !completed ? (
-                    <p className='updateTask-button'>
-                      <FontAwesomeIcon icon={faPenSquare} onClick={this.toggleForm} />
-                    </p>
-                    ) : null
-                  }
-                </Fragment>
-              ) : null 
-            }
-            {
-              !completed ? (
-                <Fragment>
-                  <p className='task-complete-button'>
-                    <FontAwesomeIcon icon={faCalendarCheck} onClick={this.handleComplete}/>
-                  </p>
-                  <p className='task-comment-button'>
-                    <FontAwesomeIcon icon={faCommentDots} onClick={this.handleComments}/>
-                  </p>
-                </Fragment>
-              ) : null
-            }
-          </div>
-      </div>
-        {
-          this.state.formActive ?
-          (
-            <form className='update-form'>
-              <input 
-                onChange={this.handleChange} 
-                type='text' 
-                name='update' 
-                className='task-update' 
-                defaultValue={this.props.data.name}
-              />
-              <button onClick={this.handleUpdate} className='task-update-button'>Изменить задание</button>
-            </form>
-          )
-          : null
-        }
-        {
-          this.state.commentActive ? <Comments onSubmitComent={this.handleSubmitComments} taskId={this.props.data.id} comments={this.state.comments}/> : null
-        }
-      </Fragment>
-    )
-  }
+                  ) : null
+                }
+              </Fragment>
+            ) : null 
+          }
+          {
+            !completed ? (
+              <Fragment>
+                <p className='task-complete-button'>
+                  <FontAwesomeIcon icon={faCalendarCheck} onClick={handleComplete}/>
+                </p>
+                <p className='task-comment-button'>
+                  <FontAwesomeIcon icon={faCommentDots} onClick={handleComments}/>
+                </p>
+              </Fragment>
+            ) : null
+          }
+        </div>
+    </div>
+      {
+        formActive ?
+        (
+          <form className='update-form'>
+            <input 
+              onChange={handleChange} 
+              type='text' 
+              name='update' 
+              className='task-update' 
+              defaultValue={name}
+            />
+            <button onClick={handleUpdate} className='task-update-button'>Изменить задание</button>
+          </form>
+        )
+        : null
+      }
+      {
+        commentActive ? <Comments onSubmitComent={handleSubmitComments} taskId={id} comments={comments}/> : null
+      }
+    </Fragment>
+  )
 }
