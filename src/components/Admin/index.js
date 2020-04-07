@@ -2,7 +2,11 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Header } from '../Header';
 import { api } from '../../api';
 import { Task } from '../Task';
+import { DndProvider } from 'react-dnd'
+import Backend from 'react-dnd-html5-backend'
 import './style.css'
+import { Drag } from "../Drag";
+import { Drop } from "../Drop";
 
 export function Admin(props) {
   const [task, setTask] = useState('')
@@ -10,6 +14,7 @@ export function Admin(props) {
   const [createTaskDisabled, setCreateTaskDisabled] = useState(false)
   const [user, setUser] = useState({})
   const [email, setEmail] = useState('')
+  const [dragPosition, setDragPosition] = useState({x: 0, y: 0})
   
   useEffect(() => {
     api.post('/get_user', {}, {headers: JSON.parse(localStorage.getItem('user'))})
@@ -79,33 +84,38 @@ export function Admin(props) {
 
     const { isAdmin, email: userEmail, avatar_url } = user
     return(
-      <Fragment>
-        <Header author={userEmail} avatar={avatar_url}/>
-        <div className='new-task'>
-          <form className='form-task'>
-            <span>Исполнитель: </span>
-            <input type='email' placeholder='email' onChange={handleUserEmail}></input>
-            <p className='new-task-head'>Новая задача:</p>
-            <input onChange={handleInputChange} type='text' name='new-task' className='new-task-input'></input>
-            <button onClick={handleSubmit} className='new-task-button' disabled={createTaskDisabled}>Создать задачу</button>
-          </form>
-          <div className='tasks-list'>
-            <p className='tasks-list-head'>Список заданий:</p>
-            {
-              tasks.map((task, index) => {
-                return (<Task 
-                        isAdmin={isAdmin} 
-                        onDeleteTask={handleDeleteTask} 
-                        onCompletesdTask={handleCompleteTask} 
-                        onUpdateTask={handleUpdateTask} 
-                        key={task.id} 
-                        data={task} 
-                        index={index + 1}
-                      />)
-                    })
-            }
+      <DndProvider backend={Backend}>
+        <Fragment>
+          <Header author={userEmail} avatar={avatar_url}/>
+          <div className='new-task'>
+            <form className='form-task'>
+              <span>Исполнитель: </span>
+              <input type='email' placeholder='email' onChange={handleUserEmail}></input>
+              <p className='new-task-head'>Новая задача:</p>
+              <input onChange={handleInputChange} type='text' name='new-task' className='new-task-input'></input>
+              <button onClick={handleSubmit} className='new-task-button' disabled={createTaskDisabled}>Создать задачу</button>
+            </form>
+            <div className='tasks-list'>
+              <p className='tasks-list-head'>Список заданий:</p>
+              <Drop onDrag={setDragPosition}>
+                <Drag position={dragPosition} />
+              </Drop>
+              {
+                tasks.map((task, index) => {
+                  return (<Task 
+                          isAdmin={isAdmin} 
+                          onDeleteTask={handleDeleteTask} 
+                          onCompletesdTask={handleCompleteTask} 
+                          onUpdateTask={handleUpdateTask} 
+                          key={task.id} 
+                          data={task} 
+                          index={index + 1}
+                        />)
+                      })
+              }
+            </div>
           </div>
-        </div>
-      </Fragment>
+        </Fragment>
+      </DndProvider>
     )
   }
