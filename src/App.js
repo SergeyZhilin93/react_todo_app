@@ -3,7 +3,8 @@ import Login from './components/Auth/Login';
 import Registration from './components/Auth/Registration'
 import { Admin } from './components/Admin';
 import { User } from './components/User';
-import { Profile } from './components/Profile'
+import { Profile } from './components/Profile';
+import { DragDropContext } from './components/DnDContext';
 import {
   BrowserRouter as Router,
   Switch,
@@ -20,6 +21,7 @@ function App() {
         <Route path='/user' component={User}/>
         <Route path='/registration' component={Registration}/>
         <Route path='/profile' component={Profile}/>
+        <Route path='/dndContext' component={DragDropContext}/>
         <Route path='/login' component={Login}/>
         <Route path="/" component={MainScreen}/>
       </Switch>

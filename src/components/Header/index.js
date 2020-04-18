@@ -28,7 +28,10 @@ export function Header({avatar, author}) {
           showDropDown == true ? (
             <div className='header-dropdown'>
               <Link to='/profile' className='dropdown-link'>Profile</Link>
-              <p className='dropdown-link'>Настройки</p>
+              <p>
+                <Link to='/dndContext' className='dropdown-link'>DndContext</Link>
+              </p>
+              {/* <p className='dropdown-link'>Настройки</p> */}
               <Link to='/' onClick={toogleLogout} className='dropdown-link'>Выход</Link>
             </div>
           ) : null
