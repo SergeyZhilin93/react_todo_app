@@ -5,6 +5,7 @@ import { Admin } from './components/Admin';
 import { User } from './components/User';
 import { Profile } from './components/Profile';
 import { DragDropContext } from './components/DnDContext';
+import { LearnJs } from './components/LearnJS'
 import {
   BrowserRouter as Router,
   Switch,
@@ -22,6 +23,7 @@ function App() {
         <Route path='/registration' component={Registration}/>
         <Route path='/profile' component={Profile}/>
         <Route path='/dndContext' component={DragDropContext}/>
+        <Route path='/learnjs' component={LearnJs}/>
         <Route path='/login' component={Login}/>
         <Route path="/" component={MainScreen}/>
       </Switch>

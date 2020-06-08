@@ -32,6 +32,7 @@ export function Header({avatar, author}) {
                 <Link to='/dndContext' className='dropdown-link'>DndContext</Link>
               </p>
               {/* <p className='dropdown-link'>Настройки</p> */}
+              <Link to='/learnjs' className='dropdown-link'>Learnjs</Link>
               <Link to='/' onClick={toogleLogout} className='dropdown-link'>Выход</Link>
             </div>
           ) : null
